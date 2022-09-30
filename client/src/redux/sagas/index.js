@@ -17,16 +17,28 @@ function* createPostSaga(action) {
   try {
     const post = yield call(api.createPost, action.payload);
     console.log("[post]", post);
-    yield put(actions.createPost.createPostSuccess(post));
+    yield put(actions.createPost.createPostSuccess(post.data));
   } catch (err) {
     console.error(err);
-    yield put(actions.getPosts.createPostFailure(err));
+    yield put(actions.createPost.createPostFailure(err));
+  }
+}
+
+function* updatePostSaga(action) {
+  try {
+    const updatePost = yield call(api.updatePost, action.payload);
+    console.log("[updatePostSaga]", updatePost);
+    yield put(actions.updatePost.updatePostSuccess(updatePost.data));
+  } catch (err) {
+    console.error(err);
+    yield put(actions.updatePost.updatePostFailure(err));
   }
 }
 
 function* mySaga() {
   yield takeLatest(actions.getPosts.getPostsRequest, fetchPostsSaga);
   yield takeLatest(actions.createPost.createPostRequest, createPostSaga);
+  yield takeLatest(actions.updatePost.updatePostRequest, updatePostSaga);
 }
 
 // generator function ES6

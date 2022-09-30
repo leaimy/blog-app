@@ -2,7 +2,7 @@ import { Button, Modal, TextareaAutosize, TextField } from "@material-ui/core";
 import React from "react";
 import FileBase64 from "react-file-base64";
 import { useSelector, useDispatch } from "react-redux";
-import { hideModal } from "../../redux/actions";
+import { createPost, hideModal } from "../../redux/actions";
 import { modalState$ } from "../../redux/selectors";
 import useStyles from "./styles";
 
@@ -19,6 +19,11 @@ function CreatePostModal() {
 
   const handleOnClose = React.useCallback(() => {
     dispatch(hideModal());
+    setData({
+      title: "",
+      content: "",
+      attachment: "",
+    });
   }, [dispatch]);
 
   const handleOnSubmit = React.useCallback(() => {
@@ -41,7 +46,8 @@ function CreatePostModal() {
     // createPost()
 
     dispatch(createPost.createPostRequest(data));
-  }, [data, dispatch]);
+    handleOnClose();
+  }, [data, dispatch, handleOnClose]);
 
   const body = (
     <div className={classes.paper} id="simple-modal-title">

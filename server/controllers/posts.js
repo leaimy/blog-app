@@ -27,7 +27,7 @@ export const updatePost = async (req, res) => {
   try {
     const updatePost = req.body;
 
-    const post = PostModel.findOneAndUpdate(
+    const post = await PostModel.findOneAndUpdate(
       { _id: updatePost._id },
       updatePost,
       { new: true }
